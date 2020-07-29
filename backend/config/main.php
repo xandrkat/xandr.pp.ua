@@ -1,4 +1,10 @@
 <?php
+
+use yii\log\FileTarget;
+use common\models\User;
+use common\modules\posts\Module as PostsModule;
+use common\modules\comments\Module as CommentsModule;
+
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -7,36 +13,37 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-backend',
-    'name' => 'Blog Admin panel',
+    'id' => 'xdsbeapp',
+    'name' => 'XDSAdminPanel',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
         'posts' => [
-            'class' => 'common\modules\posts\Module',
+            'class' => PostsModule::class,
         ],
         'comments' => [
-            'class' => 'common\modules\comments\Module',
+            'class' => CommentsModule::class,
         ],
     ],
     'components' => [
         'request' => [
-            'csrfParam' => '_csrf-backend',
+            'csrfParam' => '_csrf-xdsbeapp',
+            'baseUrl' => '/admin'
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => User::class,
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'identityCookie' => ['name' => '_identity-xdsbe', 'httpOnly' => true],
         ],
         'session' => [
-            'name' => 'advanced-backend',
+            'name' => 'xdsbeapp',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => 'yii\log\FileTarget',
+                    'class' => FileTarget::class,
                     'levels' => ['error', 'warning'],
                 ],
             ],
