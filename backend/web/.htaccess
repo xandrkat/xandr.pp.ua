@@ -1,0 +1,12 @@
+#Require valid-user
+#Authname "Authorization required"
+#Authtype Basic
+#AuthUserFile "/home/medlabtest/.htpasswd"
+
+AddDefaultCharset utf-8
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . index.php
