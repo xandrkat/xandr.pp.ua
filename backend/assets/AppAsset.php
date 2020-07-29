@@ -2,9 +2,9 @@
 
 namespace backend\assets;
 
+use yii\bootstrap4\BootstrapAsset;
 use yii\web\AssetBundle;
 use yii\web\YiiAsset;
-use yii\bootstrap\BootstrapAsset;
 
 /**
  * Main backend application asset bundle.

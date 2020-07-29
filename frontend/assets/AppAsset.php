@@ -4,7 +4,7 @@ namespace frontend\assets;
 
 use yii\web\AssetBundle;
 use yii\web\YiiAsset;
-use yii\bootstrap\BootstrapAsset;
+use yii\bootstrap4\BootstrapAsset;
 
 /**
  * Main frontend application asset bundle.
