@@ -45,8 +45,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '/<slug:\w+>' => '/site/post',
-                'defaultRoute' => '/site/index',
+                '/' => 'site/index',
+                'request/<slug:\w+>' => 'site/request'
             ],
         ],
     ],

@@ -1,12 +1,15 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Requester;
+use common\models\search\RequesterSearch;
 use common\modules\comments\models\Comments;
 use common\modules\posts\models\Posts;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\httpclient\Client;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -76,39 +79,41 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $posts = Posts::findAll(['status' => Posts::STATUS_ACTIVE]);
+        $requester = new RequesterSearch();
+        $requesterDataProvider = $requester->search(Yii::$app->request->queryParams);
         return $this->render('index', [
-            'posts' => $posts
+            'requester' => $requester,
+            'requesterDataProvider' => $requesterDataProvider
         ]);
     }
-    /**
-     * Displays post.
-     *
-     * @return mixed
-     */
-    public function actionPost($slug)
+    public function actionRequest($slug = null)
     {
-        $post = Posts::findOne(['slug' => $slug]);
-        $comment = new Comments();
-        $comment->parent_id = NULL;
-        $comment->user_id = $post->id;
-        $comment->post_id = Yii::$app->user->id;
-        $comment->created_at = time();
-        $comment->updated_at = time();
-        $comments = Comments::findAll(['post_id' => $post->id]);
-        return $this->render('post', [
-            'post' => $post,
-            'comment' => $comment,
-            'comments' => $comments
-        ]);
-    }
-    /**
-     * Register comments.
-     *
-     * @return mixed
-     */
-    public function actionPostComments()
-    {
+        if (is_null($slug) && !Yii::$app->request->isPost) {
+            $this->goHome();
+        } else {
+                $request = Requester::find()->where(['slug' => $slug])->one();
+            if (Yii::$app->request->isPost) {
+                $post = Yii::$app->request->post();
+                $_SERVER['REMOTE_ADDR'] = $post['fromSrc'];
+                $client = new Client(['baseUrl' => $post['checkSrc']]);
+                $response = $client->createRequest()
+//                    ->setUrl('articles/search')
+//                    ->addHeaders(['content-type' => 'application/json'])
+//                    ->setContent('{query_string: "Yii"}')
+                    ->send();
+
+                return $this->render('request', [
+                    'request' => $request,
+                    'result' => $response
+                ]);
+            } else {
+                return $this->render('request', [
+                    'request' => $request,
+                    'result' => NULL
+                ]);
+            }
+
+        }
 
     }
 

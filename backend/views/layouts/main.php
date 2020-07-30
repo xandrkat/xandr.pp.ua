@@ -58,15 +58,14 @@ echo Nav::widget([
 NavBar::end();
 ?>
 <div class="container-fluid">
-    <?= Breadcrumbs::widget([
-        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-    ]) ?>
     <?= Alert::widget() ?>
     <div class="row">
         <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="sidebar-sticky pt-3">
                 <?php
                 $sidebarMenuItems = [['label' => 'Home', 'url' => ['/']]];
+                $sidebarMenuItems[] = ['label' => 'Requester', 'url' => ['/requester']];
+                $sidebarMenuItems[] = ['label' => 'RequestLog', 'url' => ['/request-log']];
                 echo Nav::widget([
                     'options' => ['class' => 'flex-column'],
                     'items' => $sidebarMenuItems,
@@ -75,7 +74,7 @@ NavBar::end();
             </div>
         </nav>
         <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <div class="d-flex justify-content flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <?= $content ?>
             </div>
         </main>
