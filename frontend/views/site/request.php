@@ -7,7 +7,7 @@ $this->title = $request->title;
 ?>
 <div class="card card-primary card-outline">
     <div class="card-header">
-        <h5 class="m-0"><?=$request->src?></h5>
+        <h5 class="m-0">Город: <small class="text-muted"><?=$request->title?></small>, IP: <small class="text-muted"><?=$request->src?></small></h5>
     </div>
     <div class="card-body">
         <?php Pjax::begin(); ?>
@@ -21,7 +21,9 @@ $this->title = $request->title;
             <?= Html::hiddenInput('fromSrc', $request->src); ?>
             <?= Html::endForm(); ?>
             <?php
-            \yii\helpers\VarDumper::dump($result->headers->get('http-code'), 100, true);
+            if (!is_null($result)){
+                echo "Код ответа: ";\yii\helpers\VarDumper::dump($result->headers->get('http-code'), 100, true);
+            }
             Pjax::end();
             ?>
     </div>

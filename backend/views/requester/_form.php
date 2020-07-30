@@ -8,20 +8,21 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="requester-form">
 
     <?php $form = ActiveForm::begin(); ?>
+<div class="row">
 
-
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-
-
-    <?= $form->field($model, 'src')->textInput(['maxlength' => true]) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    <div class="col-6">
+        <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
     </div>
-
+    <div class="col-6">
+        <?= $form->field($model, 'src')->textInput(['maxlength' => true]) ?>
+    </div>
+    <div class="col-12">
+    <div class="form-group float-right">
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success ']) ?>
+    </div>
+    </div>
+</div>
     <?php ActiveForm::end(); ?>
 
-</div>

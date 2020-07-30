@@ -8,6 +8,7 @@ use backend\assets\AppAsset;
 use yii\bootstrap4\Html;
 use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
+use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
 
@@ -23,62 +24,78 @@ $this->beginPage() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
-<?php $this->beginBody();
-NavBar::begin([
-    'brandLabel' => Yii::$app->name,
-    'brandUrl' => Yii::$app->homeUrl,
-    'brandOptions' => [
-        'class' => 'navbar-brand col-md-3 col-lg-2 mr-0 px-3'
-    ],
-    'renderInnerContainer' => false,
-    'options' => [
-        'class' => 'navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow',
-    ],
-]);
-$headerMenuItems = [
-    ['label' => 'Home', 'url' => ['/site/index']],
-];
-if (Yii::$app->user->isGuest) {
-    $headerMenuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-} else {
-    $headerMenuItems[] = '<li>'
-        . Html::beginForm(['/site/logout'], 'post')
-        . Html::submitButton(
-            'Logout (' . Yii::$app->user->identity->username . ')',
-            ['class' => 'btn btn-link logout']
-        )
-        . Html::endForm()
-        . '</li>';
-}
-echo Nav::widget([
-    'options' => ['class' => 'navbar-nav px-3'],
-    'items' => $headerMenuItems,
-]);
-NavBar::end();
-?>
-<div class="container-fluid">
+<body class="skin-black sidebar-mini">
+<?php $this->beginBody(); ?>
+<div class="wrapper">
+
+    <?php NavBar::begin([
+        'renderInnerContainer' => false,
+        'options' => [
+            'class' => 'main-header navbar-expand navbar-white navbar-light',
+        ],
+    ]);
+    $headerMenuItems = [
+        ['label' => 'Home', 'url' => ['/site/index']],
+    ];
+    $headerMenuItems[] = ['label' => 'FrontEnd', 'url' => '/'];
+    if (Yii::$app->user->isGuest) {
+        $headerMenuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+    } else {
+        $headerMenuItems[] = '<li>'
+            . Html::beginForm(['/site/logout'], 'post')
+            . Html::submitButton(
+                'Logout (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'btn btn-link logout']
+            )
+            . Html::endForm()
+            . '</li>';
+    }
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav px-3'],
+        'items' => $headerMenuItems,
+    ]);
+    NavBar::end();
+    ?>
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <?=Html::a(Html::tag('span', Yii::$app->name, ['class' => 'brand-text font-weight-light']), Url::home(),['class' => 'brand-link'])?>
+        <section class="sidebar">
+            <?php
+            $sidebarMenuItems = [['label' => 'Home', 'url' => ['/']]];
+            $sidebarMenuItems[] = ['label' => 'Requester', 'url' => ['/requester']];
+            echo Nav::widget([
+                'options' => ['class' => 'nav-sidebar flex-column mt-2', 'data-widget' => 'tree'],
+                'items' => $sidebarMenuItems,
+            ]);
+            ?>
+        </section>
+    </aside>
     <?= Alert::widget() ?>
-    <div class="row">
-        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div class="sidebar-sticky pt-3">
-                <?php
-                $sidebarMenuItems = [['label' => 'Home', 'url' => ['/']]];
-                $sidebarMenuItems[] = ['label' => 'Requester', 'url' => ['/requester']];
-                $sidebarMenuItems[] = ['label' => 'RequestLog', 'url' => ['/request-log']];
-                echo Nav::widget([
-                    'options' => ['class' => 'flex-column'],
-                    'items' => $sidebarMenuItems,
-                ]);
-                ?>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col">
+                        <h1 class="m-0 text-dark"><?=$this->title?></h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col">
+                        <?= $content ?>
+                    </div>
+                </div>
             </div>
-        </nav>
-        <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-            <div class="d-flex justify-content flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <?= $content ?>
-            </div>
-        </main>
+        </div>
     </div>
+    <footer class="main-footer">
+        <div class="float-right d-none d-sm-inline">
+            <?=Yii::$app->name?>
+        </div>
+        <strong>Copyright © <?=date('Y')?>  <?=Yii::$app->name?> </strong> All rights reserved.
+    </footer>
 </div>
 <?php $this->endBody() ?>
 </body>

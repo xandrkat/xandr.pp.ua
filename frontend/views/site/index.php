@@ -5,30 +5,29 @@ use yii\grid\ActionColumn;
 
 /* @var $this yii\web\View */
 
-$this->title = Yii::$app->name;
-?>
-<div class="site-index">
-    <div class="body-content">
-        <div class="row">
-            <div class="col">
-                <?= GridView::widget([
-//                    'filterModel' => $requester,
-                    'dataProvider' => $requesterDataProvider,
-                    'summary' => false,
-                    'columns' => [
-                        'title',
-                        'src',
-                        [
-                            'class' => ActionColumn::class,
-                            'buttons' => [
-                                'update' => static function ($url, $model, $key) {
-                                    return Html::a('Check', 'request/' . $model->slug);
-                                },
-                            ],
+$this->title = Yii::$app->name; ?>
+<div class="card card-primary card-outline">
+    <div class="card-body">
+        <?php
+        if (Yii::$app->user->isGuest) {
+            echo Html::tag('h3', 'Please '.Html::a('Login', ['site/login']).' or '.Html::a('Register', ['site/signup']), ['class' => 'text-center']);
+        } else { ?>
+            <?= GridView::widget([
+                'dataProvider' => $requesterDataProvider,
+                'summary' => false,
+                'columns' => [
+                    'title',
+                    'src',
+                    [
+                        'class' => ActionColumn::class,
+                        'buttons' => [
+                            'update' => static function ($url, $model, $key) {
+                                return Html::a('Check', 'request/' . $model->slug);
+                            },
                         ],
                     ],
-                ]); ?>
-            </div>
-        </div>
+                ],
+            ]); ?>
+        <?php } ?>
     </div>
 </div>

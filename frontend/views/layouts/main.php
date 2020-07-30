@@ -39,7 +39,9 @@ $this->beginPage() ?>
         ];
         if (Yii::$app->user->isGuest) {
             $headerMenuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+            $headerMenuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         } else {
+            $headerMenuItems[] = ['label' => 'Admin Panel', 'url' => '/admin'];
             $headerMenuItems[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
@@ -72,14 +74,10 @@ $this->beginPage() ?>
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-6">
+                    <div class="col">
                         <h1 class="m-0 text-dark"><?=$this->title?></h1>
                     </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <?= Breadcrumbs::widget([
-                            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                        ]) ?>
-                    </div><!-- /.col -->
+
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>

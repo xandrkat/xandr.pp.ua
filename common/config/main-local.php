@@ -17,23 +17,24 @@ $config = [
         'mailer' => [
             'class' => SwiftMailer::class,
             'viewPath' => '@common/mail',
-            'useFileTransport' => true,
+//            'useFileTransport' => true,
         ],
     ],
 ];
 if (!YII_ENV_TEST) {
-    if ((defined('YII_FE') && YII_FE)||(defined('YII_BE') && YII_BE))
-    $config['bootstrap'][] = 'debug';
-    $config['modules']['debug'] = [
-        'class' => Debug::class,
-        'allowedIPs' => ['*'],
-    ];
+    if ((defined('YII_FE') && YII_FE)||(defined('YII_BE') && YII_BE)) {
+        $config['bootstrap'][] = 'debug';
+        $config['modules']['debug'] = [
+            'class' => Debug::class,
+//            'allowedIPs' => ['*'],
+        ];
 
-    $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = [
-        'class' => Gii::class,
-        'allowedIPs' => ['*'],
-    ];
+        $config['bootstrap'][] = 'gii';
+        $config['modules']['gii'] = [
+            'class' => Gii::class,
+//            'allowedIPs' => ['*'],
+        ];
+    }
 }
 
 return $config;
