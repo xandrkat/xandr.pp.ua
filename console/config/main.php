@@ -1,4 +1,7 @@
 <?php
+
+use bizley\migration\controllers\MigrationController;
+
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -21,6 +24,9 @@ return [
             'class' => 'yii\console\controllers\FixtureController',
             'namespace' => 'common\fixtures',
           ],
+        'migration' => [
+            'class' => MigrationController::class,
+        ],
     ],
     'components' => [
         'log' => [
