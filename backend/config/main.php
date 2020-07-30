@@ -19,12 +19,7 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
-        'posts' => [
-            'class' => PostsModule::class,
-        ],
-        'comments' => [
-            'class' => CommentsModule::class,
-        ],
+
     ],
     'components' => [
         'request' => [
